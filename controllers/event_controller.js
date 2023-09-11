@@ -7,13 +7,13 @@ const { Op } = require('sequelize')
 // FIND ALL eventS
 events.get('/', async (req, res) => {
     try {
-        const foundevents = await event.findAll({
+        const foundEvents = await Event.findAll({
             order: [ [ 'available_start_time', 'ASC' ] ],
             where: {
                 name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
             }
         })
-        res.status(200).json(foundevents)
+        res.status(200).json(foundEvents)
     } catch (error) {
         res.status(500).json(error)
     }
@@ -23,7 +23,7 @@ events.get('/', async (req, res) => {
 // FIND A SPECIFIC event
 events.get('/:id', async (req, res) => {
     try {
-        const foundevent = await event.findOne({
+        const foundevent = await Event.findOne({
             where: { event_id: req.params.id }
         })
         res.status(200).json(foundevent)
@@ -48,13 +48,13 @@ events.post('/', async (req, res) => {
 // UPDATE A event
 events.put('/:id', async (req, res) => {
     try {
-        const updatedevents = await event.update(req.body, {
+        const updatedEvents = await event.update(req.body, {
             where: {
                 event_id: req.params.id
             }
         })
         res.status(200).json({
-            message: `Successfully updated ${updatedevents} event(s)`
+            message: `Successfully updated ${updatedEvents} event(s)`
         })
     } catch(err) {
         res.status(500).json(err)
@@ -64,13 +64,13 @@ events.put('/:id', async (req, res) => {
 // DELETE A event
 events.delete('/:id', async (req, res) => {
     try {
-        const deletedevents = await event.destroy({
+        const deletedEvents = await Event.destroy({
             where: {
                 event_id: req.params.id
             }
         })
         res.status(200).json({
-            message: `Successfully deleted ${deletedevents} event(s)`
+            message: `Successfully deleted ${deletedEvents} event(s)`
         })
     } catch(err) {
         res.status(500).json(err)
